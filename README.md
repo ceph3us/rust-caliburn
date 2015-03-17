@@ -1,4 +1,4 @@
-# rust-caliburn
+# rust-caliburn [![Build Status][ci-build-stat]][ci-link]
 A strictly compliant parser for the RFC2812 (IRC Client Protocol) specification,
 written in Rust.
 
@@ -60,3 +60,6 @@ The only deviations from RFC2812 are:
 #### Decisions to be made
   * Deviation from RFC2812 may be made to allow forward-slash (0x2F) since
     some networks (like Freenode) use this in host cloaks
+
+[ci-build-stat]: https://travis-ci.org/ceph3us/rust-caliburn.svg?branch=master
+[ci-link]: https://travis-ci.org/ceph3us/rust-caliburn
