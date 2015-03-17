@@ -1,0 +1,8 @@
+[package]
+
+name = "rust-caliburn"
+version = "0.0.1"
+authors = ["cepheus"]
+
+[dependencies.peg]
+git = "https://github.com/kevinmehall/rust-peg.git"
