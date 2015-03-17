@@ -1,3 +1,7 @@
+// Types for storing parsed messages compliant with RFC2812
+// Copyright (c) 2015, Michael Holmes <holmesmich@gmail.com>. All right reserved.
+// See included LICENSE.md in for licensing info.
+
 #[derive(Debug, PartialEq, Eq)]
 pub enum Command<'a> {
     Verb(&'a str),

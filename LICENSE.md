@@ -2,7 +2,8 @@ BSD 2-clause 'Simplified' License
 =================================
 
 rust-caliburn - a strictly compliant RFC2812 parser written in Rust
-Copyright (c) 2015, Michael Holmes <holmesmich@gmail.com>
+
+Copyright (c) 2015, Michael Holmes <holmesmich@gmail.com>.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
