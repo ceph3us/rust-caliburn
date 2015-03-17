@@ -6,6 +6,17 @@ written in Rust.
 rust-caliburn is currently not production ready and should be considered
 unstable. It is also not feature complete.
 
+### Performance
+rust-caliburn uses [rust-peg][rust-peg] as its parser backend, which implements
+PEG but does not currently support memoization - as a result, parts of the
+parsing, especially splitting into space-delimited parameters, run in
+exponential time (as can be seen in the below example):
+```
+test tests::bench_complex_parse  ... bench:  6215 ns/iter (+/- 405) // 14 margs
+test tests::bench_moderate_parse ... bench:  2095 ns/iter (+/- 14) // 1 marg
+test tests::bench_simple_parse   ... bench:   718 ns/iter (+/- 13) // 0 margs
+```
+
 ## Usage
 rust-caliburn is *not* an IRC client library; it does not implement the logic
 behind the protocol, it only validates IRC client message lines and parses them
@@ -63,3 +74,4 @@ The only deviations from RFC2812 are:
 
 [ci-build-stat]: https://travis-ci.org/ceph3us/rust-caliburn.svg?branch=master
 [ci-link]: https://travis-ci.org/ceph3us/rust-caliburn
+[rust-peg]: https://github.com/kevinmehall/rust-peg
