@@ -2,19 +2,22 @@ use super::super::super::rfc2812;
 use super::super::super::line_parser;
 
 #[test]
-#[should_panic(expected = "(left == right) && (right == left)")]
+#[should_panic(expected = "assertion failed: `(left == right)`")]
 fn localhost_is_not_user() {
-    let res = rfc2812::irc_msg(":localhost NAME :test");
-    assert_eq!(res.unwrap(),
-        line_parser::Message {
-            prefix: Some(line_parser::Prefix::User {
+    let testcase = line_parser::Message {
+            prefix: line_parser::Prefix::User {
                 nickname: "localhost",
                 user: None,
                 host: None
-            }),
+            },
             command: line_parser::Command::Verb("NAME"),
-            params: Some(vec!["test"])
-        });
+            params: vec!["test"]
+        };
+
+    let res = rfc2812::irc_msg(":localhost NAME :test").unwrap();
+    println!("Testcase: {:?}, Parsed: {:?}", testcase, res);
+    assert_eq!(res,
+        testcase);
 }
 
 #[test]

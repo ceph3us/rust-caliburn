@@ -1,3 +1,5 @@
 mod valid;
 mod invalid;
-mod benchmarks;
+
+// Disabled since test crate is feature-gated
+// mod benchmarks;

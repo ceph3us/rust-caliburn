@@ -3,12 +3,23 @@
 // See included LICENSE.md in for licensing info.
 
 use line_parser::{Message, Prefix, Command};
-use line_parser::Prefix::{User, Server};
+use line_parser::Prefix::{User, Server, NoPrefix};
 use line_parser::Command::{Verb, Numeric};
 
 #[pub]
 irc_msg -> Message<'input>
-  = pre:prefix? cmd:command ps:params? { Message { prefix: pre, command: cmd, params: ps } }
+  = pre:prefix? cmd:command ps:params? { Message {
+      prefix: match pre {
+        Some(res) => res,
+	None 	  => NoPrefix
+      },
+      command: cmd,
+      params: match ps {
+      	Some(ps) => ps,
+	None	 => vec![]
+      }
+    }
+  }
 
 prefix -> Prefix<'input>
   = ":" t:host " " { Server(t) }
@@ -81,15 +92,21 @@ command -> Command<'input>
   / numeric { Numeric(match_str.parse().unwrap()) }
 
 params -> Vec<&'input str>
-  = m:middle_params? l:last_param {
+  = m:middle_params? l:last_param? {
     match m {
       Some(params) => {
         let mut out = params;
-        out.push(l.clone());
+	match l {
+	  Some(finalp) => out.push(finalp.clone()),
+	  None => ()
+	};
         out
       }
       None => {
-        vec![l.clone()]
+      	match l {
+	  Some(finalp) => vec![finalp.clone()],
+	  None 	      => vec![]
+	}
       }
     }
   }

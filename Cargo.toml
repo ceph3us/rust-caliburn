@@ -4,5 +4,6 @@ name = "rust-caliburn"
 version = "0.0.1"
 authors = ["cepheus"]
 
-[dependencies.peg]
-git = "https://github.com/kevinmehall/rust-peg.git"
+# Blocked until libsyntax and new collections are frozen
+# [dependencies.peg]
+# git = "https://github.com/kevinmehall/rust-peg.git"

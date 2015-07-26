@@ -1,0 +1,64 @@
+NICK testuser999
+:irc.example.net NOTICE * :*** Looking up your hostname...
+USER testman 0 * :testman
+:irc.example.net NOTICE * :*** Checking Ident
+:irc.example.net NOTICE * :*** Couldn't look up your hostname
+:irc.example.net NOTICE * :*** No Ident response
+:irc.example.net 001 testuser999 :Welcome to the example  Network testuser999
+:irc.example.net 002 testuser999 :Your host is irc.example.net[bbbb:bbbb:bbbb:bbbb:bbbb:bbbb:bbbb:bbbb/6667], running version ircd-example-6.6.6
+:irc.example.net 003 testuser999 :This server was created Thu Jan 1 1970 at 00:00:00 UTC
+:irc.example.net 004 testuser999 irc.example.net ircd-example-6.6.6 DOQRSZaghilopswzCFILMPQSbcefgijklmnopqrstvz bkloveqjfI
+:irc.example.net 005 testuser999 CHANTYPES=# EXCEPTS INVEX CHANMODES=eIbq,k,flj,CFLMPQScgimnprstz CHANLIMIT=#:120 PREFIX=(ov)@+ MAXLIST=bqeI:100 MODES=4 NETWORK=freenode KNOCK STATUSMSG=@+ CALLERID=g :are supported by this server
+:irc.example.net 005 testuser999 CASEMAPPING=rfc1459 CHARSET=ascii NICKLEN=16 CHANNELLEN=50 TOPICLEN=390 ETRACE CPRIVMSG CNOTICE DEAF=D MONITOR=100 FNC TARGMAX=NAMES:1,LIST:1,KICK:1,WHOIS:1,PRIVMSG:4,NOTICE:4,ACCEPT:,MONITOR: :are supported by this server
+:irc.example.net 005 testuser999 EXTBAN=$,ajrxz WHOX CLIENTVER=3.0 SAFELIST ELIST=CTU :are supported by this server
+:irc.example.net 251 testuser999 :There are 18 users and 12000 invisible on 3 servers
+:irc.example.net 252 testuser999 11 :IRC Operators online
+:irc.example.net 253 testuser999 15 :unknown connection(s)
+:irc.example.net 254 testuser999 50001 :channels formed
+:irc.example.net 255 testuser999 :I have 3333 clients and 1 servers
+:irc.example.net 265 testuser999 3333 9999 :Current local users 3333, max 9999
+:irc.example.net 266 testuser999 11111 23411 :Current global users 11111, max 23411
+:irc.example.net 250 testuser999 :Highest connection count: 10000 (9999 clients) (65535 connections received)
+:irc.example.net 375 testuser999 :- irc.example.net Message of the Day - 
+:irc.example.net 372 testuser999 :- Welcome to irc.example.net in Springfield, NT
+:irc.example.net 372 testuser999 :-  
+:irc.example.net 372 testuser999 :- Egestas in maecenas aptent scelerisque adipiscing neque
+:irc.example.net 372 testuser999 :- condimentum enim orci viverra scelerisque venenatis porta
+:irc.example.net 372 testuser999 :- suspendisse ullamcorper. Sagittis vestibulum platea ultricies
+:irc.example.net 372 testuser999 :- facilisi blandit at class auctor mi urna cursus ornare eu mi
+:irc.example.net 372 testuser999 :- vestibulum est justo porta leo a massa commodo duis consequat
+:irc.example.net 372 testuser999 :- sem. A varius eleifend ullamcorper lacus interdum parturient mi
+:irc.example.net 372 testuser999 :- cubilia condimentum pretium praesent rhoncus laoreet ultrices
+:irc.example.net 372 testuser999 :- ullamcorper dui curabitur curabitur dignissim felis platea
+:irc.example.net 372 testuser999 :- lacinia sociis parturient arcu neque. Accumsan sed vel
+:irc.example.net 372 testuser999 :- parturient a vehicula ac nam odio vel primis montes euismod
+:irc.example.net 372 testuser999 :- condimentum sed nullam laoreet nam. Accumsan felis a quis
+:irc.example.net 372 testuser999 :- dignissim a ultrices adipiscing ridiculus nec mus et sagittis
+:irc.example.net 372 testuser999 :- nascetur nunc auctor elit. Parturient suspendisse scelerisque
+:irc.example.net 372 testuser999 :- parturient sodales a sem a lorem id natoque curae senectus
+:irc.example.net 372 testuser999 :- suspendisse egestas duis.
+:irc.example.net 372 testuser999 :-  
+:irc.example.net 376 testuser999 :End of /MOTD command.
+:testuser999 MODE testuser999 :+i
+JOIN #help
+:irc.example.net 470 testuser999 #help #support :Forwarding to another channel
+:testuser999!~testex@aaaa:aaaa:aaaa:aaaa:aaaa:aaaa:aaaa:aaaa JOIN #support
+:irc.example.net 332 testuser999 #support : Welcome to #support 
+:irc.example.net 333 testuser999 #support tester!~testman@test.example.com 1234567890
+:irc.example.net 353 testuser999 = #support :testuser999 lectus id vel vestibulum libero risus dui a tor nascetur potenti natoque vdhdjsjsdj condimentum odio ve emit
+:irc.example.net 353 testuser999 = #support :euismod convallis cubilia placerat agsahs eetag leo suspendisse eu gdfhfdjd vitae etiam lacus teswts vulputate himenaeos lobortis qam nam nostra convallis consequat hgdfh facilisis gsddhd parturient quis aptent magnis tempor suspendisse eros mattis david montes parturient dignissim eleifend steve tewytyw diam dignissim
+:irc.example.net 366 testuser999 #support :End of /NAMES list.
+:ChanServ!ChanServ@services. NOTICE testuser999 :[#support] Welcome to #support. 
+:services. 328 testuser999 #support :http://example.net/
+MODE #support
+:irc.example.net 324 testuser999 #support +CLPcntjf 6:10 #support-unreg
+:irc.example.net 329 testuser999 #support 981760584
+:newuser!~newuser@192.168.11.11 JOIN #support
+:newuser!~newuser@192.168.11.11 PRIVMSG #support :message1
+:newuser!~newuser@192.168.11.11 PRIVMSG #support :message2
+:newuser!~newuser@192.168.11.11 PRIVMSG #support :message3
+:newuser!~newuser@192.168.11.11 PRIVMSG #support :message4
+:newuser!~newuser@192.168.11.11 PRIVMSG #support :message5
+QUIT :ClientX 1.0
+:testuser999!~testex@aaaa:aaaa:aaaa:aaaa:aaaa:aaaa:aaaa:aaaa QUIT :Client Quit
+ERROR :Closing Link: aaaa:aaaa:aaaa:aaaa:aaaa:aaaa:aaaa:aaaa (Client Quit)

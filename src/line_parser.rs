@@ -11,12 +11,13 @@ pub enum Command<'a> {
 #[derive(Debug,  PartialEq, Eq)]
 pub enum Prefix<'a> {
     Server(&'a str),
-    User { nickname: &'a str, user: Option<&'a str>, host: Option<&'a str> }
+    User { nickname: &'a str, user: Option<&'a str>, host: Option<&'a str> },
+    NoPrefix
 }
 
 #[derive(Debug,  PartialEq,  Eq)]
 pub struct Message<'a> {
-    pub prefix: Option<Prefix<'a>>,
+    pub prefix: Prefix<'a>,
     pub command: Command<'a>,
-    pub params: Option<Vec<&'a str>>
+    pub params: Vec<&'a str>
 }
