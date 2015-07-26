@@ -1,6 +1,6 @@
 # rust-caliburn [![Build Status][ci-build-stat]][ci-link]
 A strictly compliant parser for the RFC2812 (IRC Client Protocol) specification,
-written in Rust.
+written in Rust. Currently targets Rust 1.1.
 
 ## Notice
 rust-caliburn is currently not production ready and should be considered
@@ -9,13 +9,17 @@ unstable. It is also not feature complete.
 ### Performance
 rust-caliburn uses [rust-peg][rust-peg] as its parser backend, which implements
 PEG but does not currently support memoization - as a result, parts of the
-parsing, especially splitting into space-delimited parameters, run in
-exponential time (as can be seen in the below example):
+parsing, especially splitting into space-delimited parameters, run slower quickly as parsing becomes more complex (as can be seen in the below example):
 ```
-test tests::bench_complex_parse  ... bench:  6215 ns/iter (+/- 405) // 14 margs
-test tests::bench_moderate_parse ... bench:  2095 ns/iter (+/- 14) // 1 marg
-test tests::bench_simple_parse   ... bench:   718 ns/iter (+/- 13) // 0 margs
+test tests::line_parser::benchmarks::bench_complex_parse   ... bench:       5,307 ns/iter (+/- 517)
+test tests::line_parser::benchmarks::bench_ludicrous_parse ... bench:      16,464 ns/iter (+/- 3,608)
+test tests::line_parser::benchmarks::bench_moderate_parse  ... bench:       4,336 ns/iter (+/- 2,489)
+test tests::line_parser::benchmarks::bench_simple_parse    ... bench:       1,391 ns/iter (+/- 180)
 ```
+
+Performance may not be the same in Rust stable (1.1 as of writing), as these
+benchmarks were run using `rustc-1.3.0-nightly (82d40cb2b 2015-07-24)`, since
+`cargo bench` only currently runs on nightly builds.
 
 ## Usage
 rust-caliburn is *not* an IRC client library; it does not implement the logic
@@ -71,6 +75,8 @@ The only deviations from RFC2812 are:
 #### Decisions to be made
   * Deviation from RFC2812 may be made to allow forward-slash (0x2F) since
     some networks (like Freenode) use this in host cloaks
+  * Deviation from RFC2812 may be made to allow : in non-final parameters,
+    used in some protocol extensions
 
 [ci-build-stat]: https://travis-ci.org/ceph3us/rust-caliburn.svg?branch=master
 [ci-link]: https://travis-ci.org/ceph3us/rust-caliburn
