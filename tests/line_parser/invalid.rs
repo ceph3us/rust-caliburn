@@ -1,5 +1,9 @@
-use super::super::super::rfc2812;
-use super::super::super::line_parser;
+//extern crate test;
+
+extern crate caliburn;
+
+use self::caliburn::rfc2812;
+use self::caliburn::line_parser;
 
 #[test]
 #[should_panic(expected = "assertion failed: `(left == right)`")]
@@ -50,7 +54,42 @@ fn numeric_too_short() {
 
 #[test]
 #[should_panic(expected = "res.is_ok()")]
-fn numeric_too_long() {
-    let res = rfc2812::irc_msg(":irc.example.com 4242 :Invalid numeric (too long)");
+fn parse_prefixed_user_ip4_host_as_ip6_invalid_ip4() {
+    let res = rfc2812::irc_msg(":test!user@0:0:0:0:0:FFFF:127.0..1 NAME test");
+    assert!(res.is_ok());
+}
+
+#[test]
+#[should_panic(expected = "res.is_ok()")]
+fn parse_prefixed_user_ip4_host_invalid_empty_segment() {
+    let res = rfc2812::irc_msg(":test!127.0..1 NAME test");
+    assert!(res.is_ok());
+}
+
+#[test]
+#[should_panic(expected = "res.is_ok()")]
+fn parse_prefixed_user_ip4_host_invalid_fewer_segments() {
+    let res = rfc2812::irc_msg(":test!127.0.1 NAME test");
+    assert!(res.is_ok());
+}
+
+#[test]
+#[should_panic(expected = "res.is_ok()")]
+fn parse_prefixed_user_ip6_host_invalid_fewer_segments() {
+    let res = rfc2812::irc_msg(":test!aaaa:aaaa:aaaa:aaaa:aaaa NAME test");
+    assert!(res.is_ok());
+}
+
+#[test]
+#[should_panic(expected = "res.is_ok()")]
+fn parse_prefixed_user_ip6_host_invalid_mixed_case() {
+    let res = rfc2812::irc_msg(":test!aaaa:aaaa:aaaa:aaaa:aaaa:AAAA:AAAA:AAAA NAME test");
+    assert!(res.is_ok());
+}
+
+#[test]
+#[should_panic(expected = "res.is_ok()")]
+fn parse_prefixed_user_ip6_host_invalid_empty_segment() {
+    let res = rfc2812::irc_msg(":test!aaaa:aaaa:aaaa:aaaa:aaaa:aaaa::aaaa NAME test");
     assert!(res.is_ok());
 }

@@ -1,5 +1,7 @@
-use super::super::super::rfc2812;
-use super::super::super::line_parser;
+extern crate caliburn;
+
+use caliburn::rfc2812;
+use caliburn::line_parser;
 
 use std::path;
 use std::io;
@@ -317,7 +319,6 @@ fn numeric_response_isnt_octal() {
 #[test]
 fn can_parse_whole_connection() {
     let mut path = path::PathBuf::from(".");
-    path.push("src");
     path.push("tests");
     path.push("connection-sample.txt");
 

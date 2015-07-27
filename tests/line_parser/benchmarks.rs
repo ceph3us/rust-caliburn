@@ -1,5 +1,8 @@
-use super::super::super::rfc2812;
-use test::Bencher;
+extern crate test;
+
+use caliburn::rfc2812;
+use caliburn::line_parser;
+use self::test::Bencher;
 
 #[bench]
 fn bench_simple_parse(b: &mut Bencher) {

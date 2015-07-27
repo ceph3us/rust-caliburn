@@ -1,8 +1,12 @@
 [package]
 
-name = "rust-caliburn"
+name = "caliburn"
 version = "0.0.1"
-authors = ["cepheus"]
+authors = ["Michael Holmes <holmesmich@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/ceph3us/rust-caliburn"
+homepage = "https://github.com/ceph3us/rust-caliburn"
 
 # Blocked until libsyntax and new collections are frozen
 # [dependencies.peg]
