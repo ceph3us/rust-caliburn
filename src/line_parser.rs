@@ -19,5 +19,5 @@ pub enum Prefix<'a> {
 pub struct Message<'a> {
     pub prefix: Prefix<'a>,
     pub command: Command<'a>,
-    pub params: Vec<&'a str>
+    pub params: Vec<String>
 }

@@ -11,7 +11,7 @@ fn localhost_is_not_user() {
                 host: None
             },
             command: line_parser::Command::Verb("NAME"),
-            params: vec!["test"]
+            params: vec!["test".to_string()]
         };
 
     let res = rfc2812::irc_msg(":localhost NAME :test").unwrap();

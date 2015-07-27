@@ -38,8 +38,11 @@ exceptional circumstances, including:
 
  * Assuming that prefixes of the form `:localhost` are servers, not users
 
- * IP addresses are not strictly validated (IPs like `999.999.999.999`, while
-      invalid, are accepted)
+ * IPv4 addresses (as well as all IPv6 forms of IPv6 addresses are not strictly
+   validated (IPs like `999.999.999.999`, while invalid, are accepted)
+
+ * IPv6 addresses are not allowed to have the fully abbreviated (::) empty
+   segment notation (use 0000 or 0 instead)
 
  * Any command may have no more than 15 parameters
 
@@ -50,7 +53,10 @@ The only deviations from RFC2812 are:
    the vast majority of IRCds and clients in current use do not follow this
    behaviour to the point where enforcing compliance may affect use of the
    library
-
+   
+ * Forward-slash (0x2F) are allowed in hosts since some networks (like Freenode)
+   use this for host cloaks
+   
 ## Implementation status
 
 ### What is currently implemented
@@ -66,17 +72,17 @@ The only deviations from RFC2812 are:
   * Channels and channel keys
   * Mask expressions
   * Command-level validation
-  * IPv6 addresses
+  * Allowing idents to have ~, many networks use this to indicate unverified
+    idents
 
 #### Code hygiene
   * Increased unit test coverage
   * Better commenting in PEG spec
 
 #### Decisions to be made
-  * Deviation from RFC2812 may be made to allow forward-slash (0x2F) since
-    some networks (like Freenode) use this in host cloaks
-  * Deviation from RFC2812 may be made to allow colon (0x3A) in non-final
-    parameters, to  allow for some protocol extensions (like ircd-seven's ISUPPORT lines)
+  * Some IRCd's (again ircd-seven is the case study) do not enforce the strict
+    DNS complience for hostnames when they are artificially masked, so we should
+    accept things like
     
 [ci-build-stat]: https://travis-ci.org/ceph3us/rust-caliburn.svg?branch=master
 [ci-link]: https://travis-ci.org/ceph3us/rust-caliburn

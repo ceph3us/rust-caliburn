@@ -35,15 +35,16 @@ prefix -> Prefix<'input>
 
 #[pub]
 host -> &'input str
-  = h:hostname { match_str }
-  / hostaddr { match_str }
+  = hostaddr { match_str }
+  / hostname { match_str }
+  
 
 #[pub]
 nickname -> &'input str
   = [a-zA-Z0-9\x5B-\x60\x7B-\x7D] nick_str { match_str }
 
 nick_char
-  = [a-zA-Z0-9\x5B-\x60\x7B-\x7D\-]
+  = [a-zA-Z0-9\x5B-\x60\x7B-\x7D\-~]
 
 nick_str -> &'input str
   = nick_char{1,} { match_str }
@@ -52,13 +53,25 @@ hostname -> &'input str
   = shortname ** "." { match_str }
 
 shortname
-  = [a-zA-Z0-9] [a-zA-Z0-9\-]* [a-zA-Z0-9]*
+  = [a-zA-Z0-9] [a-zA-Z0-9\-/]* [a-zA-Z0-9]*
 
 hostaddr -> &'input str
   = ip4addr { match_str }
+  / ip6addr { match_str }
 
 ip4addr
   = digit{1,3} "." digit{1,3} "." digit{1,3} "." digit{1,3}
+
+ip6addr_trailing_seg_upper
+ = ":" hexdigit_upper{1,4}
+
+ip6addr_trailing_seg_lower
+ = ":" hexdigit_lower{1,4}
+
+ip6addr
+  = hexdigit_upper{1,4} ip6addr_trailing_seg_upper{7}
+  / hexdigit_lower{1,4} ip6addr_trailing_seg_lower{7}
+  / "0:0:0:0:0:" ("FFFF" / "ffff" / "0") ":" ip4addr
 
 host_segment -> (Option<&'input str>, &'input str)
   = u:username? "@" h:host { (u, h) }
@@ -81,41 +94,48 @@ letters -> &'input str
 digit
   = [0-9]
 
-hexdigit
-  = [0-9A-F]
+hexdigit_upper
+  = digit / "A"
+
+hexdigit_lower
+  = "a"
+
 
 numeric -> &'input str
   = digit{3} { match_str }
 
 command -> Command<'input>
-  = letters { Verb(match_str) }
+  = letters{1,} { Verb(match_str) }
   / numeric { Numeric(match_str.parse().unwrap()) }
 
-params -> Vec<&'input str>
+params -> Vec<String>
   = m:middle_params? l:last_param? {
     match m {
       Some(params) => {
         let mut out = params;
 	match l {
-	  Some(finalp) => out.push(finalp.clone()),
+	  Some(finalp) => out.push(finalp),
 	  None => ()
 	};
         out
       }
       None => {
       	match l {
-	  Some(finalp) => vec![finalp.clone()],
+	  Some(finalp) => vec![finalp],
 	  None 	      => vec![]
 	}
       }
     }
   }
 
-middle_param -> &'input str
-  = " " s:nospacecrlf { s }
+nospacecrlfcol -> &'input str
+  = nospacecrlf / ":" { match_str }
 
-middle_params -> Vec<&'input str>
+middle_param -> String
+  = " " s:nospacecrlf t:nospacecrlfcol* { let mut tmp = match_str.to_string(); tmp.remove(0); tmp }
+
+middle_params -> Vec<String>
   = middle_param{1,14}
 
-last_param -> &'input str
-  = " " ":" t:trailing { t }
+last_param -> String
+  = " " ":" t:trailing { t.to_string() }
