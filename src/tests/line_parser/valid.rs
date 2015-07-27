@@ -134,6 +134,7 @@ fn numeric_response_isnt_octal() {
         });
 }
 
+/*
 #[test]
 fn parse_whole_connection() {
     let mut path = path::PathBuf::from(".");
@@ -163,3 +164,4 @@ fn parse_whole_connection() {
 	println!("");
     }
 }
+*/
