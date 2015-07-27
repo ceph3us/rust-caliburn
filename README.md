@@ -1,6 +1,6 @@
 # rust-caliburn [![Build Status][ci-build-stat]][ci-link] [![Coverage Status][cov-stat]][cov-link]
 A strictly compliant parser for the RFC2812 (IRC Client Protocol) specification,
-written in Rust.
+written in Rust. Currently targets Rust 1.1 and above.
 
 ## Notice
 rust-caliburn is currently not production ready and should be considered
@@ -9,14 +9,17 @@ unstable. It is also not feature complete.
 ### Performance
 rust-caliburn uses [rust-peg][rust-peg] as its parser backend, which implements
 PEG but does not currently support memoization - as a result, parts of the
-parsing, especially splitting into space-delimited parameters, run in
-exponential time (as can be seen in the below example):
+parsing, especially splitting into space-delimited parameters, have run times that grow very quickly:
 ```
 test tests::line_parser::benchmarks::bench_complex_parse   ... bench:       5,307 ns/iter (+/- 517)
 test tests::line_parser::benchmarks::bench_ludicrous_parse ... bench:      16,464 ns/iter (+/- 3,608)
 test tests::line_parser::benchmarks::bench_moderate_parse  ... bench:       4,336 ns/iter (+/- 2,489)
 test tests::line_parser::benchmarks::bench_simple_parse    ... bench:       1,391 ns/iter (+/- 180)
 ```
+
+Performance figures are from `rustc-1.3.0-nightly (82d40cb2b 2015-07-24)` on
+Windows (since `cargo bench` does not currently run on beta or stable), so may
+not be representative of stable or beta, or Rust on other OSes.
 
 ## Usage
 rust-caliburn is *not* an IRC client library; it does not implement the logic
@@ -72,7 +75,9 @@ The only deviations from RFC2812 are:
 #### Decisions to be made
   * Deviation from RFC2812 may be made to allow forward-slash (0x2F) since
     some networks (like Freenode) use this in host cloaks
-
+  * Deviation from RFC2812 may be made to allow colon (0x3A) in non-final
+    parameters, to  allow for some protocol extensions (like ircd-seven's ISUPPORT lines)
+    
 [ci-build-stat]: https://travis-ci.org/ceph3us/rust-caliburn.svg?branch=master
 [ci-link]: https://travis-ci.org/ceph3us/rust-caliburn
 [rust-peg]: https://github.com/kevinmehall/rust-peg
