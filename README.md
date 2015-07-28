@@ -59,6 +59,13 @@ The only deviations from RFC2812 are:
    use this for host cloaks
 
  * Lower case may be used in IPv6 addresses (but not mixed with upper case)
+ 
+ * IRCds commonly use ~ to prefix idents that are unverified, so support those
+   in the ident even though it's techincally not allowed
+   
+ * Some networks (freenooooode!) allow the use of . at the _end_ of hostnames
+   which don't map to real ones (such as `services.`), so we begrudgingly
+   support that
    
 ## Implementation status
 
@@ -81,11 +88,6 @@ The only deviations from RFC2812 are:
 #### Code hygiene
   * Increased unit test coverage
   * Better commenting in PEG spec
-
-#### Decisions to be made
-  * Some IRCd's (again ircd-seven is the case study) do not enforce the strict
-    DNS complience for hostnames when they are artificially masked, so we should
-    accept things like
     
 [ci-build-stat]: https://travis-ci.org/ceph3us/rust-caliburn.svg?branch=master
 [ci-link]: https://travis-ci.org/ceph3us/rust-caliburn

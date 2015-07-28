@@ -44,13 +44,16 @@ nickname -> &'input str
   = [a-zA-Z0-9\x5B-\x60\x7B-\x7D] nick_str { match_str }
 
 nick_char
-  = [a-zA-Z0-9\x5B-\x60\x7B-\x7D\-~]
+  = [a-zA-Z0-9\x5B-\x60\x7B-\x7D\-]
 
 nick_str -> &'input str
   = nick_char{1,} { match_str }
 
+user_str -> &'input str
+  = (nick_char{1} / "~") nick_char* { match_str }
+
 hostname -> &'input str
-  = shortname ** "." { match_str }
+  = shortname ** "." "."{,1} { match_str }
 
 shortname
   = [a-zA-Z0-9] [a-zA-Z0-9\-/]* [a-zA-Z0-9]*
@@ -77,7 +80,7 @@ host_segment -> (Option<&'input str>, &'input str)
   = u:username? "@" h:host { (u, h) }
 
 username -> &'input str
-  = "!" u:nick_str { u }
+  = "!" u:user_str { u }
 
 nospacecrlf -> &'input str
   = [\x01-\x09\x0B-\x0C\x0E-\x1F\x21-\x39\x3B-\xFF]+ { match_str }

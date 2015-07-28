@@ -144,3 +144,17 @@ fn check_failed_parse_throws_error() {
 	 Err(e) => println!("{}", e) // So it's not optimised away
    }
 }
+
+#[test]
+#[should_panic(expected = "res.is_ok()")]
+fn nick_invalid_chars() {
+   let res = rfc2812::irc_msg(":te%st!user@host NAME :test");
+    assert!(res.is_ok());
+}
+
+#[test]
+#[should_panic(expected = "res.is_ok()")]
+fn user_invalid_chars() {
+   let res = rfc2812::irc_msg(":test!us%er@host NAME :test");
+    assert!(res.is_ok());
+}

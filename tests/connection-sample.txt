@@ -42,23 +42,23 @@ USER testman 0 * :testman
 :testuser999 MODE testuser999 :+i
 JOIN #help
 :irc.example.net 470 testuser999 #help #support :Forwarding to another channel
-:testuser999!testex@aaaa:aaaa:aaaa:aaaa:aaaa:aaaa:aaaa:aaaa JOIN #support
+:testuser999!~testex@aaaa:aaaa:aaaa:aaaa:aaaa:aaaa:aaaa:aaaa JOIN #support
 :irc.example.net 332 testuser999 #support : Welcome to #support 
 :irc.example.net 333 testuser999 #support tester!~testman@test.example.com 1234567890
 :irc.example.net 353 testuser999 = #support :testuser999 lectus id vel vestibulum libero risus dui a tor nascetur potenti natoque vdhdjsjsdj condimentum odio ve emit
 :irc.example.net 353 testuser999 = #support :euismod convallis cubilia placerat agsahs eetag leo suspendisse eu gdfhfdjd vitae etiam lacus teswts vulputate himenaeos lobortis qam nam nostra convallis consequat hgdfh facilisis gsddhd parturient quis aptent magnis tempor suspendisse eros mattis david montes parturient dignissim eleifend steve tewytyw diam dignissim
 :irc.example.net 366 testuser999 #support :End of /NAMES list.
-:ChanServ!ChanServ@services NOTICE testuser999 :[#support] Welcome to #support. 
-:services 328 testuser999 #support :http://example.net/
+:ChanServ!ChanServ@services. NOTICE testuser999 :[#support] Welcome to #support. 
+:services. 328 testuser999 #support :http://example.net/
 MODE #support
 :irc.example.net 324 testuser999 #support +CLPcntjf 6:10 #support-unreg
 :irc.example.net 329 testuser999 #support 981760584
-:newuser!newuser@192.168.11.11 JOIN #support
-:newuser!newuser@192.168.11.11 PRIVMSG #support :message1
-:newuser!newuser@192.168.11.11 PRIVMSG #support :message2
-:newuser!newuser@192.168.11.11 PRIVMSG #support :message3
-:newuser!newuser@192.168.11.11 PRIVMSG #support :message4
-:newuser!newuser@192.168.11.11 PRIVMSG #support :message5
+:newuser!~newuser@192.168.11.11 JOIN #support
+:newuser!~newuser@192.168.11.11 PRIVMSG #support :message1
+:newuser!~newuser@192.168.11.11 PRIVMSG #support :message2
+:newuser!~newuser@192.168.11.11 PRIVMSG #support :message3
+:newuser!~newuser@192.168.11.11 PRIVMSG #support :message4
+:newuser!~newuser@192.168.11.11 PRIVMSG #support :message5
 QUIT :ClientX 1.0
 :testuser999!testex@aaaa:aaaa:aaaa:aaaa:aaaa:aaaa:aaaa:aaaa QUIT :Client Quit
 ERROR :Closing Link: aaaa:aaaa:aaaa:aaaa:aaaa:aaaa:aaaa:aaaa (Client Quit)
