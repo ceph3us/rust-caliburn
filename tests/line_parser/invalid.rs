@@ -107,3 +107,31 @@ fn numeric_with_invalid_char() {
     let res = rfc2812::irc_msg("1N2 test");
     assert!(res.is_ok());
 }
+
+#[test]
+#[should_panic(expected = "res.is_ok()")]
+fn empty_line_should_fail() {
+    let res = rfc2812::irc_msg("");
+    assert!(res.is_ok());
+}
+
+#[test]
+#[should_panic(expected = "res.is_ok()")]
+fn host_only() {
+    let res = rfc2812::irc_msg(":test");
+    assert!(res.is_ok());
+}
+
+#[test]
+#[should_panic(expected = "res.is_ok()")]
+fn user_only() {
+    let res = rfc2812::irc_msg(":test!test@test");
+    assert!(res.is_ok());
+}
+
+#[test]
+#[should_panic(expected = "res.is_ok()")]
+fn no_command() {
+    let res = rfc2812::irc_msg(":test!test@test :hello");
+    assert!(res.is_ok());
+}
