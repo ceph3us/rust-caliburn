@@ -314,6 +314,17 @@ fn numeric_response_isnt_octal() {
         });
 }
 
+#[test]
+fn command_only_is_okay() {
+   let res = rfc2812::irc_msg("PING");
+   assert_eq!(res.unwrap(),
+	line_parser::Message {
+	    prefix: line_parser::Prefix::NoPrefix,
+	    command: line_parser::Command::Verb("PING"),
+	    params: vec![]
+	});
+}
+
 // Parses a sample connection in src/tests/connection-sample.txt
 // Does not check results for correctness!
 #[test]
@@ -341,6 +352,6 @@ fn can_parse_whole_connection() {
 	assert!(res.is_ok());
 	println!("Parsed to: {:?}", res.unwrap());
 
-	println!("");
-    }
+	println!("")    }
 }
+

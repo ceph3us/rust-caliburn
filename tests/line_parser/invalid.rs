@@ -93,3 +93,17 @@ fn parse_prefixed_user_ip6_host_invalid_empty_segment() {
     let res = rfc2812::irc_msg(":test!aaaa:aaaa:aaaa:aaaa:aaaa:aaaa::aaaa NAME test");
     assert!(res.is_ok());
 }
+
+#[test]
+#[should_panic(expected = "res.is_ok()")]
+fn command_with_invalid_char() {
+    let res = rfc2812::irc_msg("NAME!EMAN test");
+    assert!(res.is_ok());
+}
+
+#[test]
+#[should_panic(expected = "res.is_ok()")]
+fn numeric_with_invalid_char() {
+    let res = rfc2812::irc_msg("1N2 test");
+    assert!(res.is_ok());
+}

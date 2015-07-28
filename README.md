@@ -30,6 +30,7 @@ without significant work.
 
 ### Parsing lines
 TODO: Add instructions
+
 There are examples of using the parser in unit tests available `tests/mod.rs`.
 
 ## Compliance
@@ -56,6 +57,8 @@ The only deviations from RFC2812 are:
    
  * Forward-slash (0x2F) are allowed in hosts since some networks (like Freenode)
    use this for host cloaks
+
+ * Lower case may be used in IPv6 addresses (but not mixed with upper case)
    
 ## Implementation status
 
