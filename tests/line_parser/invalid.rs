@@ -3,18 +3,18 @@
 extern crate caliburn;
 
 use self::caliburn::rfc2812;
-use self::caliburn::line_parser;
+use self::caliburn::rfc2812_types;
 
 #[test]
 #[should_panic(expected = "assertion failed: `(left == right)`")]
 fn localhost_is_not_user() {
-    let testcase = line_parser::Message {
-            prefix: line_parser::Prefix::User {
+    let testcase = rfc2812_types::Message {
+            prefix: rfc2812_types::Prefix::User {
                 nickname: "localhost",
                 user: None,
                 host: None
             },
-            command: line_parser::Command::Verb("NAME"),
+            command: rfc2812_types::Command::Verb("NAME"),
             params: vec!["test".to_string()]
         };
 

@@ -82,8 +82,6 @@ The only deviations from RFC2812 are:
   * Channels and channel keys
   * Mask expressions
   * Command-level validation
-  * Allowing idents to have ~, many networks use this to indicate unverified
-    idents
 
 #### Code hygiene
   * Increased unit test coverage

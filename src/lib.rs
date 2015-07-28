@@ -2,7 +2,7 @@
 // Copyright (c) 2015, Michael Holmes <holmesmich@gmail.com>. All right reserved.
 // See included LICENSE.md in for licensing info.
 
-pub mod line_parser;
+pub mod rfc2812_types;
 pub mod rfc2812;
 
 //#[cfg(test)]
