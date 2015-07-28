@@ -135,3 +135,12 @@ fn no_command() {
     let res = rfc2812::irc_msg(":test!test@test :hello");
     assert!(res.is_ok());
 }
+
+#[test]
+fn check_failed_parse_throws_error() {
+   let res = rfc2812::irc_msg("!!!!!");
+   match res {
+   	 Ok(_)	=> panic!("Didn't throw parse error on invalid line!"),
+	 Err(e) => println!("{}", e) // So it's not optimised away
+   }
+}
