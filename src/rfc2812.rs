@@ -1256,17 +1256,12 @@ fn parse_trailing<'input>(input: &'input str, state: &mut ParseState,
                             if input.len() > pos {
                                 let (ch, next) = char_range_at(input, pos);
                                 match ch {
-                                    '\u{1}' ...'\t' | '\u{b}' ...'\u{c}' |
-                                    '\u{e}' ...'\u{1f}' | '!' ...'9' | ';'
-                                    ...'\u{ff}' | ' ' | ':' =>
-                                    Matched(next, ()),
-                                    _ =>
-                                    state.mark_failure(pos,
-                                                       "[\u{1}-\t\u{b}-\u{c}\u{e}-\u{1f}!-9;-\u{ff} :]"),
+                                    '\r' | '\n' | '\u{0}' =>
+                                    state.mark_failure(pos, "[^\r\n\u{0}]"),
+                                    _ => Matched(next, ()),
                                 }
                             } else {
-                                state.mark_failure(pos,
-                                                   "[\u{1}-\t\u{b}-\u{c}\u{e}-\u{1f}!-9;-\u{ff} :]")
+                                state.mark_failure(pos, "[^\r\n\u{0}]")
                             };
                         match step_res {
                             Matched(newpos, value) => {

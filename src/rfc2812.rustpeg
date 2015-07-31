@@ -6,6 +6,7 @@ use rfc2812_types::{Message, Prefix, Command};
 use rfc2812_types::Prefix::{User, Server, NoPrefix};
 use rfc2812_types::Command::{Verb, Numeric};
 
+//! Test
 #[pub]
 irc_msg -> Message<'input>
   = pre:prefix? cmd:command ps:params? { Message {
@@ -86,7 +87,7 @@ nospacecrlf -> &'input str
   = [\x01-\x09\x0B-\x0C\x0E-\x1F\x21-\x39\x3B-\xFF]+ { match_str }
 
 trailing -> &'input str
-  = [\x01-\x09\x0B-\x0C\x0E-\x1F\x21-\x39\x3B-\xFF :]+ { match_str }
+  = [^\r\n\0]+ { match_str }
 
 letters -> &'input str
   = [a-zA-Z]+ {
