@@ -325,6 +325,22 @@ fn command_only_is_okay() {
 	});
 }
 
+#[test]
+fn unicode_trailing() {
+    let res = rfc2812::irc_msg(":user1!~user1@user1.isp.com.hk NOTICE #channel :你好嗎");
+
+    assert_eq!(res.unwrap(),
+ 	rfc2812_types::Message {
+ 	    prefix: rfc2812_types::Prefix::User {
+            nickname:"user1",
+            user: Some("~user1"),
+            host: Some("user1.isp.com.hk")
+        },
+ 	    command: rfc2812_types::Command::Verb("NOTICE"),
+ 	    params: vec!["#channel".to_string(), "你好嗎".to_string()]
+ 	});
+}
+
 // Parses a sample connection in src/tests/connection-sample.txt
 // Does not check results for correctness!
 #[test]
@@ -354,4 +370,3 @@ fn can_parse_whole_connection() {
 
 	println!("")    }
 }
-

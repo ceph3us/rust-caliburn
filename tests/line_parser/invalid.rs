@@ -158,3 +158,38 @@ fn user_invalid_chars() {
    let res = rfc2812::irc_msg(":test!us%er@host NAME :test");
     assert!(res.is_ok());
 }
+
+#[test]
+#[should_panic(expected = "res.is_ok()")]
+fn no_unicode_in_command() {
+    let res = rfc2812::irc_msg(":test!user@host NOTIC€ test :test");
+    assert!(res.is_ok());
+}
+
+#[test]
+#[should_panic(expected = "res.is_ok()")]
+fn no_unicode_in_nick() {
+    let res = rfc2812::irc_msg(":t€st!user@host NOTICE test :test");
+    assert!(res.is_ok());
+}
+
+#[test]
+#[should_panic(expected = "res.is_ok()")]
+fn no_unicode_in_user() {
+    let res = rfc2812::irc_msg(":test!us€r@host NOTICE test :test");
+    assert!(res.is_ok());
+}
+
+#[test]
+#[should_panic(expected = "res.is_ok()")]
+fn no_unicode_in_host() {
+    let res = rfc2812::irc_msg(":test!user@h€st NOTICE test :test");
+    assert!(res.is_ok());
+}
+
+#[test]
+#[should_panic(expected = "res.is_ok()")]
+fn no_unicode_in_non_trailing_param() {
+    let res = rfc2812::irc_msg(":test!user@host NOTICE t€st :test");
+    assert!(res.is_ok());
+}
