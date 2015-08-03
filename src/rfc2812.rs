@@ -95,14 +95,16 @@ fn pos_to_line(input: &str, pos: usize) -> (usize, usize) {
     }
     return (lineno, remaining + 1);
 }
-struct ParseState {
+struct ParseState<'input> {
     max_err_pos: usize,
     expected: ::std::collections::HashSet<&'static str>,
+    _phantom: ::std::marker::PhantomData<&'input ()>,
 }
-impl ParseState {
-    fn new() -> ParseState {
+impl <'input> ParseState<'input> {
+    fn new() -> ParseState<'input> {
         ParseState{max_err_pos: 0,
-                   expected: ::std::collections::HashSet::new(),}
+                   expected: ::std::collections::HashSet::new(),
+                   _phantom: ::std::marker::PhantomData,}
     }
     fn mark_failure(&mut self, pos: usize, expected: &'static str)
      -> RuleResult<()> {
@@ -114,7 +116,7 @@ impl ParseState {
         Failed
     }
 }
-fn parse_irc_msg<'input>(input: &'input str, state: &mut ParseState,
+fn parse_irc_msg<'input>(input: &'input str, state: &mut ParseState<'input>,
                          pos: usize) -> RuleResult<Message<'input>> {
     {
         let start_pos = pos;
@@ -184,7 +186,7 @@ fn parse_irc_msg<'input>(input: &'input str, state: &mut ParseState,
         }
     }
 }
-fn parse_prefix<'input>(input: &'input str, state: &mut ParseState,
+fn parse_prefix<'input>(input: &'input str, state: &mut ParseState<'input>,
                         pos: usize) -> RuleResult<Prefix<'input>> {
     {
         let choice_res =
@@ -313,8 +315,8 @@ fn parse_prefix<'input>(input: &'input str, state: &mut ParseState,
         }
     }
 }
-fn parse_host<'input>(input: &'input str, state: &mut ParseState, pos: usize)
- -> RuleResult<&'input str> {
+fn parse_host<'input>(input: &'input str, state: &mut ParseState<'input>,
+                      pos: usize) -> RuleResult<&'input str> {
     {
         let choice_res =
             {
@@ -352,7 +354,7 @@ fn parse_host<'input>(input: &'input str, state: &mut ParseState, pos: usize)
         }
     }
 }
-fn parse_nickname<'input>(input: &'input str, state: &mut ParseState,
+fn parse_nickname<'input>(input: &'input str, state: &mut ParseState<'input>,
                           pos: usize) -> RuleResult<&'input str> {
     {
         let start_pos = pos;
@@ -386,7 +388,7 @@ fn parse_nickname<'input>(input: &'input str, state: &mut ParseState,
         }
     }
 }
-fn parse_nick_char<'input>(input: &'input str, state: &mut ParseState,
+fn parse_nick_char<'input>(input: &'input str, state: &mut ParseState<'input>,
                            pos: usize) -> RuleResult<()> {
     if input.len() > pos {
         let (ch, next) = char_range_at(input, pos);
@@ -397,7 +399,7 @@ fn parse_nick_char<'input>(input: &'input str, state: &mut ParseState,
         }
     } else { state.mark_failure(pos, "[a-zA-Z0-9[-`{-}-]") }
 }
-fn parse_nick_str<'input>(input: &'input str, state: &mut ParseState,
+fn parse_nick_str<'input>(input: &'input str, state: &mut ParseState<'input>,
                           pos: usize) -> RuleResult<&'input str> {
     {
         let start_pos = pos;
@@ -433,7 +435,7 @@ fn parse_nick_str<'input>(input: &'input str, state: &mut ParseState,
         }
     }
 }
-fn parse_user_str<'input>(input: &'input str, state: &mut ParseState,
+fn parse_user_str<'input>(input: &'input str, state: &mut ParseState<'input>,
                           pos: usize) -> RuleResult<&'input str> {
     {
         let start_pos = pos;
@@ -501,7 +503,7 @@ fn parse_user_str<'input>(input: &'input str, state: &mut ParseState,
         }
     }
 }
-fn parse_hostname<'input>(input: &'input str, state: &mut ParseState,
+fn parse_hostname<'input>(input: &'input str, state: &mut ParseState<'input>,
                           pos: usize) -> RuleResult<&'input str> {
     {
         let start_pos = pos;
@@ -570,7 +572,7 @@ fn parse_hostname<'input>(input: &'input str, state: &mut ParseState,
         }
     }
 }
-fn parse_shortname<'input>(input: &'input str, state: &mut ParseState,
+fn parse_shortname<'input>(input: &'input str, state: &mut ParseState<'input>,
                            pos: usize) -> RuleResult<()> {
     {
         let seq_res =
@@ -653,7 +655,7 @@ fn parse_shortname<'input>(input: &'input str, state: &mut ParseState,
         }
     }
 }
-fn parse_hostaddr<'input>(input: &'input str, state: &mut ParseState,
+fn parse_hostaddr<'input>(input: &'input str, state: &mut ParseState<'input>,
                           pos: usize) -> RuleResult<&'input str> {
     {
         let choice_res =
@@ -692,7 +694,7 @@ fn parse_hostaddr<'input>(input: &'input str, state: &mut ParseState,
         }
     }
 }
-fn parse_ip4addr<'input>(input: &'input str, state: &mut ParseState,
+fn parse_ip4addr<'input>(input: &'input str, state: &mut ParseState<'input>,
                          pos: usize) -> RuleResult<()> {
     {
         let seq_res =
@@ -892,7 +894,7 @@ fn parse_ip4addr<'input>(input: &'input str, state: &mut ParseState,
     }
 }
 fn parse_ip6addr_trailing_seg_upper<'input>(input: &'input str,
-                                            state: &mut ParseState,
+                                            state: &mut ParseState<'input>,
                                             pos: usize) -> RuleResult<()> {
     {
         let seq_res = slice_eq(input, state, pos, ":");
@@ -924,7 +926,7 @@ fn parse_ip6addr_trailing_seg_upper<'input>(input: &'input str,
     }
 }
 fn parse_ip6addr_trailing_seg_lower<'input>(input: &'input str,
-                                            state: &mut ParseState,
+                                            state: &mut ParseState<'input>,
                                             pos: usize) -> RuleResult<()> {
     {
         let seq_res = slice_eq(input, state, pos, ":");
@@ -955,7 +957,7 @@ fn parse_ip6addr_trailing_seg_lower<'input>(input: &'input str,
         }
     }
 }
-fn parse_ip6addr<'input>(input: &'input str, state: &mut ParseState,
+fn parse_ip6addr<'input>(input: &'input str, state: &mut ParseState<'input>,
                          pos: usize) -> RuleResult<()> {
     {
         let choice_res =
@@ -1124,8 +1126,8 @@ fn parse_ip6addr<'input>(input: &'input str, state: &mut ParseState,
         }
     }
 }
-fn parse_host_segment<'input>(input: &'input str, state: &mut ParseState,
-                              pos: usize)
+fn parse_host_segment<'input>(input: &'input str,
+                              state: &mut ParseState<'input>, pos: usize)
  -> RuleResult<(Option<&'input str>, &'input str)> {
     {
         let start_pos = pos;
@@ -1165,7 +1167,7 @@ fn parse_host_segment<'input>(input: &'input str, state: &mut ParseState,
         }
     }
 }
-fn parse_username<'input>(input: &'input str, state: &mut ParseState,
+fn parse_username<'input>(input: &'input str, state: &mut ParseState<'input>,
                           pos: usize) -> RuleResult<&'input str> {
     {
         let start_pos = pos;
@@ -1191,8 +1193,9 @@ fn parse_username<'input>(input: &'input str, state: &mut ParseState,
         }
     }
 }
-fn parse_nospacecrlf<'input>(input: &'input str, state: &mut ParseState,
-                             pos: usize) -> RuleResult<&'input str> {
+fn parse_nospacecrlf<'input>(input: &'input str,
+                             state: &mut ParseState<'input>, pos: usize)
+ -> RuleResult<&'input str> {
     {
         let start_pos = pos;
         {
@@ -1241,7 +1244,7 @@ fn parse_nospacecrlf<'input>(input: &'input str, state: &mut ParseState,
         }
     }
 }
-fn parse_trailing<'input>(input: &'input str, state: &mut ParseState,
+fn parse_trailing<'input>(input: &'input str, state: &mut ParseState<'input>,
                           pos: usize) -> RuleResult<&'input str> {
     {
         let start_pos = pos;
@@ -1287,7 +1290,7 @@ fn parse_trailing<'input>(input: &'input str, state: &mut ParseState,
         }
     }
 }
-fn parse_letters<'input>(input: &'input str, state: &mut ParseState,
+fn parse_letters<'input>(input: &'input str, state: &mut ParseState<'input>,
                          pos: usize) -> RuleResult<&'input str> {
     {
         let start_pos = pos;
@@ -1331,8 +1334,8 @@ fn parse_letters<'input>(input: &'input str, state: &mut ParseState,
         }
     }
 }
-fn parse_digit<'input>(input: &'input str, state: &mut ParseState, pos: usize)
- -> RuleResult<()> {
+fn parse_digit<'input>(input: &'input str, state: &mut ParseState<'input>,
+                       pos: usize) -> RuleResult<()> {
     if input.len() > pos {
         let (ch, next) = char_range_at(input, pos);
         match ch {
@@ -1341,8 +1344,9 @@ fn parse_digit<'input>(input: &'input str, state: &mut ParseState, pos: usize)
         }
     } else { state.mark_failure(pos, "[0-9]") }
 }
-fn parse_hexdigit_upper<'input>(input: &'input str, state: &mut ParseState,
-                                pos: usize) -> RuleResult<()> {
+fn parse_hexdigit_upper<'input>(input: &'input str,
+                                state: &mut ParseState<'input>, pos: usize)
+ -> RuleResult<()> {
     {
         let choice_res = parse_digit(input, state, pos);
         match choice_res {
@@ -1351,11 +1355,12 @@ fn parse_hexdigit_upper<'input>(input: &'input str, state: &mut ParseState,
         }
     }
 }
-fn parse_hexdigit_lower<'input>(input: &'input str, state: &mut ParseState,
-                                pos: usize) -> RuleResult<()> {
+fn parse_hexdigit_lower<'input>(input: &'input str,
+                                state: &mut ParseState<'input>, pos: usize)
+ -> RuleResult<()> {
     slice_eq(input, state, pos, "a")
 }
-fn parse_numeric<'input>(input: &'input str, state: &mut ParseState,
+fn parse_numeric<'input>(input: &'input str, state: &mut ParseState<'input>,
                          pos: usize) -> RuleResult<&'input str> {
     {
         let start_pos = pos;
@@ -1392,7 +1397,7 @@ fn parse_numeric<'input>(input: &'input str, state: &mut ParseState,
         }
     }
 }
-fn parse_command<'input>(input: &'input str, state: &mut ParseState,
+fn parse_command<'input>(input: &'input str, state: &mut ParseState<'input>,
                          pos: usize) -> RuleResult<Command<'input>> {
     {
         let choice_res =
@@ -1453,7 +1458,7 @@ fn parse_command<'input>(input: &'input str, state: &mut ParseState,
         }
     }
 }
-fn parse_params<'input>(input: &'input str, state: &mut ParseState,
+fn parse_params<'input>(input: &'input str, state: &mut ParseState<'input>,
                         pos: usize) -> RuleResult<Vec<String>> {
     {
         let start_pos = pos;
@@ -1509,8 +1514,9 @@ fn parse_params<'input>(input: &'input str, state: &mut ParseState,
         }
     }
 }
-fn parse_nospacecrlfcol<'input>(input: &'input str, state: &mut ParseState,
-                                pos: usize) -> RuleResult<&'input str> {
+fn parse_nospacecrlfcol<'input>(input: &'input str,
+                                state: &mut ParseState<'input>, pos: usize)
+ -> RuleResult<&'input str> {
     {
         let choice_res = parse_nospacecrlf(input, state, pos);
         match choice_res {
@@ -1533,8 +1539,9 @@ fn parse_nospacecrlfcol<'input>(input: &'input str, state: &mut ParseState,
         }
     }
 }
-fn parse_middle_param<'input>(input: &'input str, state: &mut ParseState,
-                              pos: usize) -> RuleResult<String> {
+fn parse_middle_param<'input>(input: &'input str,
+                              state: &mut ParseState<'input>, pos: usize)
+ -> RuleResult<String> {
     {
         let start_pos = pos;
         {
@@ -1594,8 +1601,9 @@ fn parse_middle_param<'input>(input: &'input str, state: &mut ParseState,
         }
     }
 }
-fn parse_middle_params<'input>(input: &'input str, state: &mut ParseState,
-                               pos: usize) -> RuleResult<Vec<String>> {
+fn parse_middle_params<'input>(input: &'input str,
+                               state: &mut ParseState<'input>, pos: usize)
+ -> RuleResult<Vec<String>> {
     {
         let mut repeat_pos = pos;
         let mut repeat_value = vec!();
@@ -1616,8 +1624,9 @@ fn parse_middle_params<'input>(input: &'input str, state: &mut ParseState,
         } else { Failed }
     }
 }
-fn parse_last_param<'input>(input: &'input str, state: &mut ParseState,
-                            pos: usize) -> RuleResult<String> {
+fn parse_last_param<'input>(input: &'input str,
+                            state: &mut ParseState<'input>, pos: usize)
+ -> RuleResult<String> {
     {
         let start_pos = pos;
         {
